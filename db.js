@@ -13,7 +13,7 @@ knex.schema.hasTable("data").then(function(exists) {
       // bluetooth, WiFi, etc
       t.string("tracking_type", 128)
       // tracking type specific data
-      t.json("tracking_data")
+      t.json("tracking_data", true)
       /* this is basically the GPSd data
        * Some fields can be null
        * Lat, long and errors are of course the most important, but others are
@@ -27,8 +27,6 @@ knex.schema.hasTable("data").then(function(exists) {
       t.float("epv") // altitude error
       t.float("speed")
       t.float("climb")
-      t.float("eps") // speed error
-      t.float("epc") // climb error
     })
   }
 })

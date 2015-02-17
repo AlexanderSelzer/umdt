@@ -18,14 +18,21 @@ module.exports = function(db) {
     }
 
     db("data").insert({
+      created_at: new Date(),
       tracking_type: data.type,
       lat: data.lat,
-      lon: data.lon
+      lon: data.lon,
+      alt: data.alt,
+      epx: data.epx,
+      epy: data.epy,
+      epv: data.epv,
+      tracking_data: data.tracking_data
     }).then(function() {
       res.sendStatus(200)
     })
     .catch(function(err) {
       res.sendStatus(500)
+      console.log(err)
     })
 
   }
