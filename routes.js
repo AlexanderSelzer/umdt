@@ -2,7 +2,7 @@ module.exports = function(db) {
   var routes = {}
 
   routes.getData = function(req, res) {
-    db.select("id", "type").from("data").then(function(data) {
+    db.select("id", "tracking_type", "lat", "lon").from("data").then(function(data) {
       res.send(data)
     })
     .catch(function(err) {
@@ -17,7 +17,11 @@ module.exports = function(db) {
       return res.status(400).send("bad data")
     }
 
-    db("data").insert({type: data.type}).then(function() {
+    db("data").insert({
+      tracking_type: data.type,
+      lat: data.lat,
+      lon: data.lon
+    }).then(function() {
       res.sendStatus(200)
     })
     .catch(function(err) {
