@@ -19,14 +19,18 @@ knex.schema.hasTable("data").then(function(exists) {
        * Lat, long and errors are of course the most important, but others are
        * collected just in case they might be useful some time.
        * */
-      t.float("lat")
-      t.float("lon")
+      t.float("lat").index()
+      t.float("lon").index()
       t.float("alt")
       t.float("epx") // lat error
       t.float("epy") // long error
       t.float("epv") // altitude error
       t.float("speed")
       t.float("climb")
+    }).then(function() {
+      knex.raw("create index tracking_data_index on data using gin (tracking_data)").catch(function(err) {
+        console.log(err)
+      })
     })
   }
 })
