@@ -16,7 +16,8 @@ app.get("/", function(req, res) {
 
 app.get("/api/data", routes.getData)
 app.get("/api/data/:id", routes.getDataById)
-app.get("/api/data/wifi/:shost", routes.getWifiDataByDevice)
+app.get("/api/data/wifi/shost/:shost", routes.getWifiDataByDevice)
+app.get("/api/data/wifi/unique", routes.getUniqueWifiDevices)
 app.post("/api/data", routes.postData)
 
 app.listen(8080)

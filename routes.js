@@ -26,13 +26,26 @@ module.exports = function(db) {
     })
   }
 
-  // GET /api/data/wifi/:shost
+  // GET /api/data/wifi/shost/:shost
   routes.getWifiDataByDevice = function(req, res) {
     var jsonQuery = {shost: req.params.shost}
     db.select("id", "tracking_type", "lat", "lon", "tracking_data")
       .from("data")
       .where("tracking_type", "wifi")
       .whereRaw("tracking_data @> ?", [jsonQuery])
+      .then(function(data) {
+      res.send(data)
+    })
+    .catch(function(err) {
+      console.log(err)
+      res.status(500)
+    })
+  }
+
+  // GET /api/data/wifi/unique
+  routes.getUniqueWifiDevices = function(req, res) {
+    var jsonQuery = {shost: req.params.shost}
+    db.raw("select count(*), tracking_data->'shost' as shost from data group by shost")
       .then(function(data) {
       res.send(data)
     })
