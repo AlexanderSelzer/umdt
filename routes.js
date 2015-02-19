@@ -47,7 +47,7 @@ module.exports = function(db) {
     var jsonQuery = {shost: req.params.shost}
     db.raw("select count(*), tracking_data->'shost' as shost from data group by shost")
       .then(function(data) {
-      res.send(data)
+      res.send(data.rows)
     })
     .catch(function(err) {
       console.log(err)
