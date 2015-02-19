@@ -1,0 +1,19 @@
+{
+  "name": "umdtc",
+  "version": "0.0.0",
+  "authors": [
+    "Alexander Selzer <aselzer3@gmail.com>"
+  ],
+  "license": "MIT",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "leaflet": "~0.7.3",
+    "jquery": "~2.1.3"
+  }
+}

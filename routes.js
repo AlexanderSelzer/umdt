@@ -1,6 +1,7 @@
 module.exports = function(db) {
   var routes = {}
 
+  // GET /data
   routes.getData = function(req, res) {
     db.select("id", "tracking_type", "lat", "lon", "tracking_data").from("data").then(function(data) {
       res.send(data)
@@ -11,6 +12,38 @@ module.exports = function(db) {
     })
   }
 
+  // GET /data/:id
+  routes.getDataById = function(req, res) {
+    db.select("id", "tracking_type", "lat", "lon", "tracking_data")
+    .from("data")
+    .where("id", req.params.id)
+    .then(function(data) {
+      res.send(data)
+    })
+    .catch(function(err) {
+      console.log(err)
+      res.status(500)
+    })
+  }
+
+  // GET /api/data/wifi/:shost
+  routes.getWifiDataByDevice = function(req, res) {
+    var jsonQuery = {shost: req.params.shost}
+    db.select("id", "tracking_type", "lat", "lon", "tracking_data")
+      .from("data")
+      .where("tracking_type", "wifi")
+      .whereRaw("tracking_data @> ?", [jsonQuery])
+      .then(function(data) {
+      res.send(data)
+    })
+    .catch(function(err) {
+      console.log(err)
+      res.status(500)
+    })
+  }
+
+
+  // POST /data
   routes.postData = function(req, res) {
     var data = req.body
     if (!data) {
