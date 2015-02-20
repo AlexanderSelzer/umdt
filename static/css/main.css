@@ -1,6 +1,11 @@
+@font-face {
+  font-family: "Open Sans";
+  src: url("/fonts/OpenSans-Regular.ttf");
+}
+
 body {
   margin: 0;
-  font-family: helvetica, arial, sans-serif;
+  font-family: "Open Sans", helvetica, arial, sans-serif;
 }
 
 .header {
@@ -19,14 +24,70 @@ body {
 }
 
 .main {
-  
+  height: 600px;
 }
 
 .map {
-
 }
 
 .map #map {
-  width: 800px;
-  height: 600px;
+  float: left;
+  width: 60%;
+  height: 720px;
 }
+
+.data {
+  float: left;
+  width: 40%;
+  height: 720px;
+  overflow-y: scroll;
+}
+
+.data .list-header {
+  height: 30px;
+  margin: 8px 4px 0 4px;
+  font-size: 20px;
+  line-height: 30px;
+  border-bottom: 2px solid rgb(113, 53, 169);
+}
+
+.data .list-header .field {
+  padding-left: 6px;
+  min-width: 70px;
+  height: 30px;
+  float: left;
+  line-height: 30px;
+  border-right: 2px solid rgb(255, 255, 255);
+}
+
+.data .list-item {
+  height: 30px;
+  margin: 8px 4px 0 4px;
+  font-size: 20px;
+  line-height: 30px;
+  /*background-color: rgba(135, 181, 192, 0.8);*/
+  border: 2px solid rgb(67, 26, 187);
+  border-radius: 2px;
+  cursor: pointer;
+
+  transition: 0.24s ease-in-out all;
+}
+
+.data .list-item:hover {
+  /*background-color: rgb(198, 234, 252);*/
+  border: 2px solid rgb(187, 26, 66);
+}
+
+.data .list-item .field {
+  padding-left: 6px;
+  min-width: 70px;
+  height: 30px;
+  float: left;
+  line-height: 30px;
+  border-right: 2px solid rgb(56, 78, 156);
+}
+
+.data .list-item .field:last-of-type {
+  border: none;
+}
+
