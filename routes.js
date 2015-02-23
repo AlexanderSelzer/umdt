@@ -2,6 +2,7 @@ module.exports = function(db) {
   var routes = {}
 
   // GET /data
+  // bad idea if the system ran for a few days :)
   routes.getData = function(req, res) {
     db.select("id", "tracking_type", "lat", "lon", "tracking_data").from("data").then(function(data) {
       res.send(data)
@@ -43,6 +44,7 @@ module.exports = function(db) {
   }
 
   // GET /api/data/wifi/unique
+  // This might need to be cached if the data gets larger.
   routes.getUniqueWifiDevices = function(req, res) {
     var jsonQuery = {shost: req.params.shost}
     db.raw("select count(*), tracking_data->'shost' as shost from data group by shost")
