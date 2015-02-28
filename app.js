@@ -14,6 +14,7 @@ app.get("/", function(req, res) {
   res.send("hi")
 })
 
+app.get("/api/ping", routes.ping)
 app.get("/api/data", routes.getData)
 app.get("/api/data/:id", routes.getDataById)
 app.get("/api/data/wifi/shost/:shost", routes.getWifiDataByDevice)

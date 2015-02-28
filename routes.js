@@ -1,6 +1,11 @@
 module.exports = function(db) {
   var routes = {}
 
+  // GET /ping
+  routes.ping = function(req, res) {
+    res.status(200)
+  }
+
   // GET /data
   // bad idea if the system ran for a few days :)
   routes.getData = function(req, res) {

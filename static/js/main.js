@@ -14,11 +14,18 @@ var dataView = $(".data")
  */
 
 function addDataToMap(data) {
+  /*
+  var markers = new L.MarkerClusterGroup()
+  */
+
   data.forEach(function(d) {
     var coords = [d.lat, d.lon]
-    L.marker(coords).addTo(map)
-    .bindPopup(d.tracking_data.shost)
+
+    map.addLayer((new L.CircleMarker(coords)).setRadius(8))
+    //L.marker(coords).addTo(map)
+    //.bindPopup(d.tracking_data.shost)
   })
+  map.addLayer(markers)
 }
 
 $.get("api/data/wifi/unique", function(uniqueDevices) {
@@ -37,28 +44,3 @@ $.get("api/data/wifi/unique", function(uniqueDevices) {
     })
   })
 })
-
-/*
-$.get("api/data", function(response) {
-  data = response
-
-  data.forEach(function(d) {
-    var mac = d.tracking_data.shost
-    var coords = [d.lat, d.lon]
-
-    if (!devices[mac])
-      devices[mac] = [coords]
-    else
-      devices[mac].push(coords)
-  })
-
-  Object.keys(devices).forEach(function(mac) {
-    var locations = devices[mac]
-
-    locations.forEach(function(coords) {
-      L.marker(coords).addTo(map)
-        .bindPopup(mac)
-    })
-  })
-})
-*/
