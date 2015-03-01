@@ -67,3 +67,20 @@ select * from
 where array_length(ssids, 1) > 1;
 
 ```
+
+Find everyone who connected to a specific SSID
+
+```sql
+select count(*), tracking_data->'shost' as shost from data
+where tracking_data @> '{"ssid": "Starbucks"}'
+group by shost;
+```
+
+```sql
+select array_agg(distinct tracking_data->'ssid'), S.mac from
+data, (
+  select count(*), tracking_data->'shost' as mac from data
+  where tracking_data @> '{"ssid": "WirelessViennaAirport"}'
+  group by mac)S
+where tracking_data->'shost' = S.mac group by S.mac;
+```
