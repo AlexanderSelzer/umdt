@@ -1,14 +1,12 @@
-module.exports = function(db) {
+module.exports = function(db, app) {
   var routes = {}
 
-  // GET /ping
-  routes.ping = function(req, res) {
+  app.get("/api/ping", function(req, res) {
     res.status(200)
-  }
+  })
 
-  // GET /data
-  // bad idea if the system ran for a few days :)
-  routes.getData = function(req, res) {
+  // probably a bad idea if there is more than a bit of data
+  app.get("/api/data", function(req, res) {
     db.select("id", "tracking_type", "lat", "lon", "tracking_data").from("data").then(function(data) {
       res.send(data)
     })
@@ -16,10 +14,9 @@ module.exports = function(db) {
       console.log(err)
       res.status(500)
     })
-  }
+  })
 
-  // GET /data/:id
-  routes.getDataById = function(req, res) {
+  app.get("/api/data/:id", function(req, res) {
     db.select("id", "tracking_type", "lat", "lon", "tracking_data")
     .from("data")
     .where("id", req.params.id)
@@ -30,12 +27,11 @@ module.exports = function(db) {
       console.log(err)
       res.status(500)
     })
-  }
+  })
 
-  // GET /api/data/wifi/shost/:shost
-  routes.getWifiDataByDevice = function(req, res) {
+  app.get("/api/data/wifi/shost/:shost", function(req, res) {
     var jsonQuery = {shost: req.params.shost}
-    db.select("id", "tracking_type", "lat", "lon", "tracking_data")
+    db.select("id", "tracking_type", "lat", "lon", "tracking_data", "created_at")
       .from("data")
       .where("tracking_type", "wifi")
       .whereRaw("tracking_data @> ?", [jsonQuery])
@@ -46,11 +42,11 @@ module.exports = function(db) {
       console.log(err)
       res.status(500)
     })
-  }
+  })
 
-  // GET /api/data/wifi/unique
-  // This might need to be cached if the data gets larger.
-  routes.getUniqueWifiDevices = function(req, res) {
+
+  // TODO cache this!
+  app.get("/api/data/wifi/unique", function(req, res) {
     var jsonQuery = {shost: req.params.shost}
     db.raw("select count(*), tracking_data->'shost' as shost from data group by shost")
       .then(function(data) {
@@ -60,11 +56,10 @@ module.exports = function(db) {
       console.log(err)
       res.status(500)
     })
-  }
+  })
 
 
-  // POST /data
-  routes.postData = function(req, res) {
+  app.post("/api/data", function(req, res) {
     var data = req.body
     if (!data) {
       return res.status(400).send("bad data")
@@ -87,8 +82,5 @@ module.exports = function(db) {
       res.sendStatus(500)
       console.log(err)
     })
-
-  }
-
-  return routes
+  })
 }
